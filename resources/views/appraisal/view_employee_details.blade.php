@@ -1,0 +1,845 @@
+@php
+    $user = Auth::user();
+    $role = $user->role;
+@endphp
+
+<form action="{{ route('appraisalreport.hr_comment', $appraisal_datas->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+    <div class="row">
+ 
+      <div class="col-sm-6">
+          <label for="inputEmail5" class="form-label">Evaluation Date *</label>
+          
+          <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="evaluation_date" value="{{$appraisal_datas->evaluation_date}}" readonly>
+        </div>
+        <div class="col-sm-6">
+          <label for="inputEmail5" class="form-label">Evaluation Type *</label>
+          <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="evaluation_type" value="{{$appraisal_datas->evaluation_type}}" readonly disabled>
+            <option <?php echo ($appraisal_datas->evaluation_type == 'Probationary') ? 'selected' : ''; ?>>Probationary</option>
+            <option <?php echo ($appraisal_datas->evaluation_type == 'Annual') ? 'selected' : ''; ?>>Annual</option>
+            <option <?php echo ($appraisal_datas->evaluation_type == 'General') ? 'selected' : ''; ?>>General</option>
+          </select>
+        </div>
+        <div class="col-sm-12" style="margin-top: 20px;">
+          <label for="inputEmail5" class="form-label">Evaluation Period *</label>
+          <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="evaluation_period" value="" readonly disabled>
+            <option selected>Choose Evaluation Period...</option>
+            <option  <?php echo ($appraisal_datas->evaluation_period == '1 Year') ? 'selected' : ''; ?>>1 Year</option>
+            <option  <?php echo ($appraisal_datas->evaluation_period == '6 Months') ? 'selected' : ''; ?>>6 Months</option>
+            <option  <?php echo ($appraisal_datas->evaluation_period == '3 Months') ? 'selected' : ''; ?>>3 Months</option>
+          </select>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12" style="margin-top: 30px;">
+          <div class="card">
+            <div class="card-body">
+
+             <div class="tab-box">
+                <div class="row user-tabs">
+                  <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
+                    <ul class="nav nav-tabs nav-tabs-solid">
+                    <li class="nav-item"><a href="#appr_technical1" data-toggle="tab" class="nav-link active">Employee Details</a></li>
+                    <li class="nav-item"><a href="#appr_organizational1" data-toggle="tab" class="nav-link">COMPETENCIES (Ratings and weightages entered by appraiser)</a></li>
+                    <li class="nav-item"><a href="#appr_technical2" data-toggle="tab" class="nav-link">Employee Characteristics</a></li>
+                    <li class="nav-item"><a href="#appr_organizational2" data-toggle="tab" class="nav-link">Employee Future Targets</a></li>
+                    <li class="nav-item"><a href="#appr_technical3" data-toggle="tab" class="nav-link">Training Needs</a></li>
+                    <li class="nav-item"><a href="#appr_organizational3" data-toggle="tab" class="nav-link">Comments & Sign-Off</a></li>
+                    @if($user->hasRole('Hr'))
+                    <li class="nav-item"><a href="#hr_comment4" data-toggle="tab" class="nav-link">Hr Comments</a></li>
+                    @endif
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content">
+
+              <div id="appr_technical1" class="pro-overview tab-pane fade active show">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="bg-white">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th colspan="5"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <tr>
+                            <td scope="row" colspan="2">Emp ID</td>
+                            <td scope="row" colspan="2">
+                              <input type="number" class="form-control no-border" id="inputEmpId" style="color: #8D8D8D;" value="{{$appraisal_datas->employee->employee_no}}" readonly>
+                              <input type="hidden" class="form-control no-border" id="inputEmpId" style="color: #8D8D8D;" name="employee_id" value="{{$appraisal_datas->employee_id}}">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">Employee Name</td>
+                            <td scope="row" colspan="2">
+                              <input type="text" class="form-control" id="inputName5" style="color: #8D8D8D;" value="{{$appraisal_datas->employee->name}}&nbsp;{{$appraisal_datas->employee->lname}}" readonly>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">Designation</td>
+                            <td scope="row" colspan="2">
+                              <select id="inputEmail5" class="form-control" style="color: #8D8D8D;" readonly>
+                                <option selected>{{$appraisal_datas->employee->designations->name}}</option>
+                                <!--<option>Class Teacher</option>
+                                <option>Office Assistant</option>-->
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">Department</td>
+                            <td scope="row" colspan="2">
+                              <select id="inputEmail5" class="form-control" style="color: #8D8D8D;" readonly>
+                                <option selected>{{$appraisal_datas->employee->departments->name}}</option>
+                               
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">Date of Joining</td>
+                            <td scope="row" colspan="2">
+                              <input type="date" class="form-control" id="inputName5" style="color: #8D8D8D;" value="{{$appraisal_datas->employee->dob}}" readonly>
+                            </td>
+                          </tr>
+                          <!--<tr>
+                            <td scope="row" colspan="2">Designation Period</td>
+                            <td scope="row" colspan="2">
+                              <input type="date" class="form-control" id="inputName5" style="color: #8D8D8D;">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">Review Period</td>
+                            <td scope="row" colspan="2">
+                              <input type="date" class="form-control" id="inputName5" style="color: #8D8D8D;">
+                            </td>
+                          </tr>-->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="appr_organizational1" class="pro-overview tab-pane fade show">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="bg-white">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th colspan="5"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th colspan="2">Tasks / Competencies</th>
+                            <th colspan="2">HOD Rating</th>
+                            <th colspan="2">Principal Rating</th>
+                          </tr>
+                         @foreach ($appraisalFeedback as $appraisalData)
+                            @php
+                                $hodRatings = json_decode($appraisal_datas->hod_rating);
+                                $principalRatings = json_decode($appraisal_datas->principal_rating);
+                                $index = array_search($appraisalData->id, $appraisalDataIds);
+                                $hodRating = isset($hodRatings[$index]) ? $hodRatings[$index] : null;
+                                $principalRating = isset($principalRatings[$index]) ? $principalRatings[$index] : null;
+                            @endphp
+                                @if($appraisalData->appriasal_type->type_name == "COMPETENCIES (Ratings and weightages entered by appraiser)")
+                                    
+                                    <tr>
+                                        <td scope="row" colspan="2">
+                                         <span class="text-wrap">{{$appraisalData->details}}</span>
+                                          <input type="hidden" name="appraisal_data[]" value="{{$appraisalData->id}}" readonly>
+                                        </td>
+                                        <td scope="row" colspan="2">
+                                        <select id="hod_rating_{{$appraisalData->id}}" class="form-select" style="color: #8D8D8D;" name="hod_rating[]" value="" readonly disabled>
+                                            <option selected></option>
+                                            <option>NA</option>
+                                            <option {{ $hodRating == 1 ? 'selected' : '' }}>1</option>
+                                            <option {{ $hodRating == 2 ? 'selected' : '' }}>2</option>
+                                            <option {{ $hodRating == 3 ? 'selected' : '' }}>3</option>
+                                            <option {{ $hodRating == 4 ? 'selected' : '' }}>4</option>
+                                            <option {{ $hodRating == 5 ? 'selected' : '' }}>5</option>
+                                        </select>
+                                        </td>
+                                        <td scope="row" colspan="2">
+                                        <select id="principal_rating_{{$appraisalData->id}}" class="form-select" style="color: #8D8D8D;" name="principal_rating[]" value="" readonly disabled>
+                                            <option selected></option>
+                                            <option>NA</option>
+                                            <option {{ $principalRating == 1 ? 'selected' : '' }}>1</option>
+                                            <option {{ $principalRating == 2 ? 'selected' : '' }}>2</option>
+                                            <option {{ $principalRating == 3 ? 'selected' : '' }}>3</option>
+                                            <option {{ $principalRating == 4 ? 'selected' : '' }}>4</option>
+                                            <option {{ $principalRating == 5 ? 'selected' : '' }}>5</option>
+                                        </select>
+                                        </td>
+                                    </tr>
+                                    
+                                @endif
+                            @endforeach
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="appr_technical2" class="pro-overview tab-pane fade show">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="bg-white">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th colspan="5"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th colspan="2">Communication Skills</th>
+                            <th colspan="2">HOD Rating</th>
+                            <th colspan="2">Principal Rating</th>
+                          </tr>
+                          @foreach ($appraisalFeedback as $appraisalData)
+                         
+                            @php
+                                $hodRatings = json_decode($appraisal_datas->hod_rating);
+                                $principalRatings = json_decode($appraisal_datas->principal_rating);
+                                $index = array_search($appraisalData->id, $appraisalDataIds);
+                                $hodRating = isset($hodRatings[$index]) ? $hodRatings[$index] : null;
+                                $principalRating = isset($principalRatings[$index]) ? $principalRatings[$index] : null;
+                            @endphp
+                                @if($appraisalData->appriasal_type->type_name == "Employee Characteristics")
+                                    
+                                    <tr>
+                                        <td scope="row" colspan="2">
+                                         <span class="text-wrap"> {{$appraisalData->details}}</span>
+                                          <input type="hidden" name="appraisal_data[]" value="{{$appraisalData->id}}">
+                                        </td>
+                                        <td scope="row" colspan="2">
+                                        <select id="hod_rating_{{$appraisalData->id}}" class="form-select" style="color: #8D8D8D;" name="hod_rating[]" value="" readonly disabled>
+                                            <option selected></option>
+                                            <option>NA</option>
+                                            <option {{ $hodRating == 1 ? 'selected' : '' }}>1</option>
+                                            <option {{ $hodRating == 2 ? 'selected' : '' }}>2</option>
+                                            <option {{ $hodRating == 3 ? 'selected' : '' }}>3</option>
+                                            <option {{ $hodRating == 4 ? 'selected' : '' }}>4</option>
+                                            <option {{ $hodRating == 5 ? 'selected' : '' }}>5</option>
+                                        </select>
+                                        </td>
+                                        <td scope="row" colspan="2">
+                                        <select id="principal_rating_{{$appraisalData->id}}" class="form-select" style="color: #8D8D8D;" name="principal_rating[]" value="" readonly disabled>
+                                            <option selected></option>
+                                            <option>NA</option>
+                                            <option {{ $principalRating == 1 ? 'selected' : '' }}>1</option>
+                                            <option {{ $principalRating == 2 ? 'selected' : '' }}>2</option>
+                                            <option {{ $principalRating == 3 ? 'selected' : '' }}>3</option>
+                                            <option {{ $principalRating == 4 ? 'selected' : '' }}>4</option>
+                                            <option {{ $principalRating == 5 ? 'selected' : '' }}>5</option>
+                                        </select>
+                                        </td>
+                                    </tr>
+                                    
+                                @endif
+                            @endforeach
+                        
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="appr_organizational2" class="pro-overview tab-pane fade show">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="bg-white">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th colspan="5"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th colspan="2">Areas of Improvement/Tasks/Goals</th>
+                            <th colspan="2">Review By Date</th>
+                            <th colspan="2">Recommended By</th>
+                          </tr>
+                            @php
+                                $future_target         = json_decode($appraisal_datas->future_targets_data);
+                                $future_target_date    = json_decode($appraisal_datas->future_target_review_date);
+                                $future_recommended    = json_decode($appraisal_datas->future_targets_recommended);
+                            @endphp
+                            <tr>
+                            <td scope="row" colspan="2">
+                              @if(isset($future_target[0]) && !empty($future_target[0] && $future_target[0] !=null))
+                                <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]"value="{{ $future_target[0] }} " readonly disabled>
+                              @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]" value=" " readonly disabled>
+                              @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_target_date[0]) && !empty($future_target_date[0] && $future_target_date[0] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="@if(isset($future_target_date[0]) && !empty($future_target_date[0])){{ date('Y-m-d', strtotime($future_target_date[0])) }}@endif" readonly disabled>
+                            @else 
+                            <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_recommended[0]) && !empty($future_recommended[0] && $future_recommended[0] !=null))
+
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option  @if(isset($future_recommended[0]) && $future_recommended[0] == 'Choose...') selected @endif>Choose...</option>
+                                <option  @if(isset($future_recommended[0]) && $future_recommended[0] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($future_recommended[0]) && $future_recommended[0] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($future_recommended[0]) && $future_recommended[0] == 'HOD') selected @endif>Hod</option>
+                              </select>
+                            @else
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option >Choose...</option>
+                                <option >Principal</option>
+                                <option >Vice-Principal</option>
+                                <option >HR</option>
+                              </select>
+
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                              @if(isset($future_target[1]) && !empty($future_target[1] && $future_target[1] !=null))
+                                <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]"value="{{ $future_target[1] }} " readonly disabled>
+                              @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]" value=" " readonly disabled>
+                              @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_target_date[1]) && !empty($future_target_date[1] && $future_target_date[1] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="@if(isset($future_target_date[1]) && !empty($future_target_date[1])){{ date('Y-m-d', strtotime($future_target_date[1])) }}@endif" readonly disabled>
+                            @else 
+                            <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_recommended[1]) && !empty($future_recommended[1] && $future_recommended[1] !=null))
+
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option  @if(isset($future_recommended[1]) && $future_recommended[1] == 'Choose...') selected @endif>Choose...</option>
+                                <option  @if(isset($future_recommended[1]) && $future_recommended[1] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($future_recommended[1]) && $future_recommended[1] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($future_recommended[1]) && $future_recommended[1] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option >Choose...</option>
+                                <option >Principal</option>
+                                <option >Vice-Principal</option>
+                                <option >HR</option>
+                              </select>
+
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                              @if(isset($future_target[2]) && !empty($future_target[2] && $future_target[2] !=null))
+                                <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]"value="{{ $future_target[2] }} " readonly disabled>
+                              @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]" value=" " readonly disabled>
+                              @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_target_date[2]) && !empty($future_target_date[2] && $future_target_date[2] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="@if(isset($future_target_date[2]) && !empty($future_target_date[2])){{ date('Y-m-d', strtotime($future_target_date[2])) }}@endif" readonly disabled>
+                            @else 
+                            <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_recommended[2]) && !empty($future_recommended[2] && $future_recommended[2] !=null))
+
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option  @if(isset($future_recommended[2]) && $future_recommended[2] == 'Choose...') selected @endif>Choose...</option>
+                                <option  @if(isset($future_recommended[2]) && $future_recommended[2] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($future_recommended[2]) && $future_recommended[2] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($future_recommended[2]) && $future_recommended[2] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option >Choose...</option>
+                                <option >Principal</option>
+                                <option >Vice-Principal</option>
+                                <option >HR</option>
+                              </select>
+
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                              @if(isset($future_target[3]) && !empty($future_target[3] && $future_target[3] !=null))
+                                <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]"value="{{ $future_target[3] }} " readonly disabled>
+                              @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]" value=" " readonly disabled>
+                              @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_target_date[3]) && !empty($future_target_date[3] && $future_target_date[3] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="@if(isset($future_target_date[3]) && !empty($future_target_date[3])){{ date('Y-m-d', strtotime($future_target_date[3])) }}@endif" readonly disabled>
+                            @else 
+                            <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_recommended[3]) && !empty($future_recommended[3] && $future_recommended[3] !=null))
+
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option  @if(isset($future_recommended[3]) && $future_recommended[3] == 'Choose...') selected @endif>Choose...</option>
+                                <option  @if(isset($future_recommended[3]) && $future_recommended[3] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($future_recommended[3]) && $future_recommended[3] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($future_recommended[3]) && $future_recommended[3] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option >Choose...</option>
+                                <option >Principal</option>
+                                <option >Vice-Principal</option>
+                                <option >HR</option>
+                              </select>
+
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                              @if(isset($future_target[4]) && !empty($future_target[4] && $future_target[4] !=null))
+                                <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]"value="{{ $future_target[4] }} " readonly disabled>
+                              @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]" value=" " readonly disabled>
+                              @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_target_date[4]) && !empty($future_target_date[4] && $future_target_date[4] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="@if(isset($future_target_date[4]) && !empty($future_target_date[4])){{ date('Y-m-d', strtotime($future_target_date[4])) }}@endif" readonly disabled>
+                            @else 
+                            <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_recommended[4]) && !empty($future_recommended[4] && $future_recommended[4] !=null))
+
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option  @if(isset($future_recommended[4]) && $future_recommended[4] == 'Choose...') selected @endif>Choose...</option>
+                                <option  @if(isset($future_recommended[4]) && $future_recommended[4] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($future_recommended[4]) && $future_recommended[4] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($future_recommended[4]) && $future_recommended[4] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option >Choose...</option>
+                                <option >Principal</option>
+                                <option >Vice-Principal</option>
+                                <option >HR</option>
+                              </select>
+
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                              @if(isset($future_target[5]) && !empty($future_target[5] && $future_target[5] !=null))
+                                <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]"value="{{ $future_target[5] }} " readonly disabled>
+                              @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target[]" value=" " readonly disabled>
+                              @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_target_date[5]) && !empty($future_target_date[5] && $future_target_date[5] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="@if(isset($future_target_date[5]) && !empty($future_target_date[5])){{ date('Y-m-d', strtotime($future_target_date[5])) }}@endif" readonly disabled>
+                            @else 
+                            <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="future_target_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($future_recommended[5]) && !empty($future_recommended[5] && $future_recommended[5] !=null))
+
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option  @if(isset($future_recommended[5]) && $future_recommended[5] == 'Choose...') selected @endif>Choose...</option>
+                                <option  @if(isset($future_recommended[5]) && $future_recommended[5] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($future_recommended[5]) && $future_recommended[5] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($future_recommended[5]) && $future_recommended[5] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="future_recommended[]" value="" readonly disabled>
+                                <option >Choose...</option>
+                                <option >Principal</option>
+                                <option >Vice-Principal</option>
+                                <option >HR</option>
+                              </select>
+
+                            @endif
+                            </td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="appr_technical3" class="pro-overview tab-pane fade show">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="bg-white">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th colspan="5"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th colspan="2">Training Title</th>
+                            <th colspan="2">Due By</th>
+                            <th colspan="2">Recommended By</th>
+                          </tr>
+                       
+                            @php
+                                $training_titles         = json_decode($appraisal_datas->training_title);
+                                $training_date          = json_decode($appraisal_datas->training_due_date);
+                                $training_recomended    = json_decode($appraisal_datas->training_recommended);
+                            @endphp
+                          <tr>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_titles[0]) && !empty($training_titles[0] && $training_titles[0] !=null))
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="@if(isset($training_titles[0])){{ $training_titles[0] }} @endif" readonly disabled>
+                            @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_date[0]) && !empty($training_date[0] && $training_date[0] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="@if(isset($training_date[0] )  && !empty($training_date[0])){{$training_date[0] }}@endif" readonly disabled>
+                            @else
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_recomended[0]) && !empty($training_recomended[0] && $training_recomended[0] !=null))
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled >
+                              <option  @if(isset($training_recomended[0]) && $training_recomended[0] == 'Choose...') selected @endif>Choose...</option>
+                                <option @if(isset($training_recomended[0]) && $training_recomended[0] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($training_recomended[0]) && $training_recomended[0] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($training_recomended[0]) && $training_recomended[0] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                            <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option >Choose...</option>
+                                <option>Principal</option>
+                                <option >Vice-Principal</option>
+                                <option>HR</option>
+                              </select>
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_titles[1]) && !empty($training_titles[1] && $training_titles[1] !=null))
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="@if(isset($training_titles[1])){{ $training_titles[1] }} @endif" readonly disabled>
+                            @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_date[1]) && !empty($training_date[1] && $training_date[1] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="@if(isset($training_date[1] )  && !empty($training_date[1])){{$training_date[1] }}@endif" readonly disabled>
+                            @else
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_recomended[1]) && !empty($training_recomended[1] && $training_recomended[1] !=null))
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option  @if(isset($training_recomended[1]) && $training_recomended[1] == 'Choose...') selected @endif>Choose...</option>
+                                <option @if(isset($training_recomended[1]) && $training_recomended[1] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($training_recomended[1]) && $training_recomended[1] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($training_recomended[1]) && $training_recomended[1] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                            <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option >Choose...</option>
+                                <option>Principal</option>
+                                <option >Vice-Principal</option>
+                                <option>HR</option>
+                              </select>
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_titles[2]) && !empty($training_titles[2] && $training_titles[2] !=null))
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="@if(isset($training_titles[2])){{ $training_titles[2] }} @endif" readonly disabled>
+                            @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_date[2]) && !empty($training_date[2] && $training_date[2] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="@if(isset($training_date[2] )  && !empty($training_date[2])){{$training_date[2] }}@endif" readonly disabled>
+                            @else
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_recomended[2]) && !empty($training_recomended[2] && $training_recomended[2] !=null))
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option  @if(isset($training_recomended[2]) && $training_recomended[2] == 'Choose...') selected @endif>Choose...</option>
+                                <option @if(isset($training_recomended[2]) && $training_recomended[2] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($training_recomended[2]) && $training_recomended[2] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($training_recomended[2]) && $training_recomended[2] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                            <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option >Choose...</option>
+                                <option>Principal</option>
+                                <option >Vice-Principal</option>
+                                <option>HR</option>
+                              </select>
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_titles[3]) && !empty($training_titles[3] && $training_titles[3] !=null))
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="@if(isset($training_titles[3])){{ $training_titles[3] }} @endif" readonly disabled>
+                            @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_date[3]) && !empty($training_date[3] && $training_date[3] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="@if(isset($training_date[3] )  && !empty($training_date[3])){{$training_date[3] }}@endif" readonly disabled>
+                            @else
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_recomended[3]) && !empty($training_recomended[3] && $training_recomended[3] !=null))
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option  @if(isset($training_recomended[3]) && $training_recomended[3] == 'Choose...') selected @endif>Choose...</option>
+                                <option @if(isset($training_recomended[3]) && $training_recomended[3] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($training_recomended[3]) && $training_recomended[3] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($training_recomended[3]) && $training_recomended[3] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                            <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option >Choose...</option>
+                                <option>Principal</option>
+                                <option >Vice-Principal</option>
+                                <option>HR</option>
+                              </select>
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_titles[4]) && !empty($training_titles[4] && $training_titles[4] !=null))
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="@if(isset($training_titles[4])){{ $training_titles[4] }} @endif" readonly disabled>
+                            @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_date[4]) && !empty($training_date[4] && $training_date[4] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="@if(isset($training_date[4] )  && !empty($training_date[4])){{$training_date[4] }}@endif" readonly disabled>
+                            @else
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_recomended[4]) && !empty($training_recomended[4] && $training_recomended[4] !=null))
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option  @if(isset($training_recomended[4]) && $training_recomended[4] == 'Choose...') selected @endif>Choose...</option>
+                                <option @if(isset($training_recomended[4]) && $training_recomended[4] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($training_recomended[4]) && $training_recomended[4] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($training_recomended[4]) && $training_recomended[4] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                            <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option >Choose...</option>
+                                <option>Principal</option>
+                                <option >Vice-Principal</option>
+                                <option>HR</option>
+                              </select>
+                            @endif
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_titles[5]) && !empty($training_titles[5] && $training_titles[5] !=null))
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="@if(isset($training_titles[5])){{ $training_titles[5] }} @endif" readonly disabled>
+                            @else
+                              <input type="text" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_title[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_date[5]) && !empty($training_date[5] && $training_date[5] !=null))
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="@if(isset($training_date[5] )  && !empty($training_date[5])){{$training_date[5] }}@endif" readonly disabled>
+                            @else
+                              <input type="date" class="form-control" id="inputEmail5" style="color: #8D8D8D;" name="training_date[]" value="" readonly disabled>
+                            @endif
+                            </td>
+                            <td scope="row" colspan="2">
+                            @if(isset($training_recomended[5]) && !empty($training_recomended[5] && $training_recomended[5] !=null))
+                              <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option  @if(isset($training_recomended[5]) && $training_recomended[5] == 'Choose...') selected @endif>Choose...</option>
+                                <option @if(isset($training_recomended[5]) && $training_recomended[5] == 'Principal') selected @endif>Principal</option>
+                                <option @if(isset($training_recomended[5]) && $training_recomended[5] == 'Vice-Principal') selected @endif>Vice-Principal</option>
+                                <option @if(isset($training_recomended[5]) && $training_recomended[5] == 'HOD') selected @endif>HOD</option>
+                              </select>
+                            @else
+                            <select id="inputEmail5" class="form-select" style="color: #8D8D8D;" name="training_recomended[]" readonly disabled>
+                              <option >Choose...</option>
+                                <option>Principal</option>
+                                <option >Vice-Principal</option>
+                                <option>HR</option>
+                              </select>
+                            @endif
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="appr_organizational3" class="pro-overview tab-pane fade show">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="bg-white">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th colspan="5"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        @php
+                          $employee_comments         = $appraisal_datas->employee_comments;
+                          $hod_comments = $appraisal_datas->hod_comments;
+                          $principal_comments = $appraisal_datas->principal_comments;
+                        @endphp
+                        
+                          <tr>
+                            <td scope="row" colspan="2">Employee Comments</td>
+                            <td scope="row" colspan="2">
+                              <div class="col-12" style="padding: 0px;">
+                                <textarea class="form-control" id="inputAddress2" style="height: 100px; color: #8D8D8D;" name="employee_comments[]" readonly disabled>{{$employee_comments ?? ''}}</textarea>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">Head of Department Comments</td>
+                            <td scope="row" colspan="2">
+                              <div class="col-12" style="padding: 0px;">
+                                <textarea class="form-control" id="inputAddress2" style="height: 100px; color: #8D8D8D;" name="hod_comments[]" value="" readonly disabled>{{$hod_comments ?? ''}}</textarea>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr >
+                            <td scope="row" colspan="2">Principal's Comments</td>
+                            <td scope="row" colspan="2">
+                              <div class="col-12" style="padding: 0px;">
+                                <textarea class="form-control" id="inputAddress2" style="height: 100px; color: #8D8D8D;" name="principal_comments[]" value="" readonly disabled >{{$principal_comments ?? ''}}</textarea>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row" colspan="2">Employee Acknowldge:</td>
+                            <td scope="row" colspan="2">{{$appraisal_datas->employee_status == 1 ? "Yes" : "NO"}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+     
+              <div id="hr_comment4" class="pro-overview tab-pane fade show">
+                  <div class="row">
+                    <div class="col-sm-12">
+                    
+                      <div class="bg-white">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Actions</th>
+                              <th>Comments</th>
+                            </tr>
+                          </thead>
+                            <tbody>
+                              @php
+                                $action = json_decode($appraisal_datas->hr_action);
+                                $comment = json_decode($appraisal_datas->hr_comments,true);
+                              @endphp
+                              
+                              <tr>
+                                <td>
+                                  <div class="col-12" style="padding: 0px;">
+                                    <textarea class="form-control" id="hr_action" style="height: 100px; color: #8D8D8D;" name="hr_action[]" value="">{{ $action[0] ?? '' }}</textarea>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="col-12" style="padding: 0px;">
+                                    <textarea  class="form-control" id="hr_comment" style="height: 100px; color: #8D8D8D;" name="hr_comment[]" value="">{{ $comment[0] ?? '' }}</textarea>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="col-12" style="padding: 0px;">
+                                  <textarea class="form-control" id="hr_action" style="height: 100px; color: #8D8D8D;" name="hr_action[]" value="">{{ $action[1] ?? '' }}</textarea>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="col-12" style="padding: 0px;">
+                                    <textarea  class="form-control" id="hr_comment" style="height: 100px; color: #8D8D8D;" name="hr_comment[]" value="">{{ $comment[1] ?? '' }}</textarea>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                        <div class="float-end">
+                          <button type="submit" class="btn btn-primary">submit</button>
+                        </div>
+                      </div>
+                  
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  
+    <!-- <div class="submit-section">
+      <button type="submit" class="btn btn-primary submit-btn">Save</button>
+    </div> -->
+
+  </form>
+

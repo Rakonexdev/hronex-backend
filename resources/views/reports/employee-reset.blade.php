@@ -1,0 +1,75 @@
+@foreach($employees as $employee)    
+<tr>
+    <td style="position: sticky;left:0;background:#c2e0ab;">
+        {{$employee->name}} {{$employee->lname}}
+    </td>
+    <td>
+        {{$employee->employee_no}}
+    </td>
+    <td>
+    {{$employee->mobile1}}
+    </td>
+    <td>
+        {{$employee->email}}
+    </td>
+    <td>
+        {{$employee->department}}
+    </td>
+    <td>
+        {{$employee->designation}}
+    </td>
+    <td>
+        {{$employee->gender}}
+    </td>
+    <td>
+        {{$employee->dob}}
+    </td>
+    <td>
+        {{$employee->age}}
+    </td>
+    <td>
+        {{$employee->nationality}}
+    </td>
+    <td>
+        {{$employee->marital_status}}
+    </td>
+    <td>
+        {{$employee->qidno}}
+    </td>
+    <td>
+        {{$employee->qidexpiry}}
+    </td>
+    <td>
+        {{$employee->passportno}}
+    </td>
+    <td>
+        {{$employee->passportexpiry}}
+    </td>
+    <td>
+        {{$employee->joiningdate}}
+    </td>
+    <td>
+        {{$employee->contract_length}}
+    </td>
+    <td>
+        {{$employee->service_years}}
+    </td>
+    <td>
+        {{$employee->basic_salary}}
+    </td>
+    <td>
+        {{$employee->accomodation_allowance}}
+    </td>
+    <td>
+        {{$employee->transport_allowance}}
+    </td>
+    <td>
+        {{$employee->gross_total}}
+    </td>
+    <td>
+        {{$employee->bank_name}}
+    </td>
+    <th><button type="button" class="btn btn-danger "><a href="{{ route('employeereportsExportId', ['excel', $employee->employee_no]) }}" class="text-light">Download Excel</a></button></th>
+
+</tr>
+@endforeach

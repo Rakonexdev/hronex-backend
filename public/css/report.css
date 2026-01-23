@@ -1,0 +1,44 @@
+/*CSS styles for reports*/
+
+.report-container table tr td, .report-container table tr th {
+    font-size: 12px;
+}
+.main-table td {
+    text-align: center;
+}
+
+.child-table-f {
+    border-color: #cdcdcd;
+}
+.child-table-f-p th {
+    text-align: center;
+}
+.child-table-f-p {
+    background-color: #339;
+    color: #fff;
+}
+.child-table-f-i {
+    background-color: #deeaf6;
+}
+.child-table-f-i th, .child-table-f-i td {
+    text-align: center;
+}
+
+.child-table-s-p {
+    background-color: #ff0;
+    color: #000;
+}
+.child-table-s-p th {
+    text-align: center;
+}
+.child-table-s-p-0 {
+    background-color: #339;
+    color: #fff;
+}
+.child-table-s-i th, .child-table-s-i td {
+    text-align: center;
+}
+
+sup {
+    color: #ff0000 !important;
+}
