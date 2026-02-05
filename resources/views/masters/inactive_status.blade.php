@@ -44,8 +44,8 @@
                     <label class="form-label">Status</label>
                     <select name="status" class="form-control">
                         <option value="" selected>Choose...</option>
-                        <option value="1">Enable</option>
-                        <option value="0">Disable</option>
+                        <option value="1" {{ ($edit_masters && $edit_masters->active == 1) ? 'selected' : '' }}>Enable</option>
+                        <option value="0" {{ ($edit_masters && $edit_masters->active == 0) ? 'selected' : '' }}>Disable</option>
                     </select>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <button type="submit" class="btn btn-block btn-alpha">{{$edit_masters ? 'Update' : 'Save'}}</button>
             </div>
             @if ($edit_masters)
-            <div class="col-md-1" style="padding-top: 7px;">
+            <div class="col-md-1" style="padding-top: 33px;">
                 <a href="{{ url('inactivestatus') }}" class="btn btn-block btn-danger">Cancel</a>
             </div>
             @endif

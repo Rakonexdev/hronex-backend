@@ -714,6 +714,7 @@ class ReportsController extends HrmController
         //                                 ->get();
         //     dd($eachemp);
         // }    
+       
         if ($request->has('month')) {
             $currentMonth = $request->month;
             $currentYear = $request->year ?? Carbon::now()->year;
@@ -724,9 +725,21 @@ class ReportsController extends HrmController
 
         $currentYear = Carbon::now()->year; // Get the current year
 
-        $employees = Employees::select('id', 'employee_id', 'user_id', 'employee_no', 'name', 'lname')
-            ->where('status', 1)
-            ->orderByRaw("CASE 
+        // Get all employees for the dropdown filter
+        $employeeList = Employees::select('id', 'employee_no', 'name', 'lname')
+                        ->where('status', 1)
+                        ->orderBy('name')
+                        ->get();
+
+        $query = Employees::select('id', 'employee_id', 'user_id', 'employee_no', 'name', 'lname')
+            ->where('status', 1);
+
+        // Apply employee filter if selected
+        if ($request->has('employee_id') && !empty($request->employee_id)) {
+            $query->where('id', $request->employee_id);
+        }
+
+        $employees = $query->orderByRaw("CASE 
                             WHEN employee_no REGEXP '^[0-9]+$' THEN LPAD(employee_no, 10, '0') 
                             ELSE employee_no END")
             ->orderBy('employee_no')
@@ -748,7 +761,7 @@ class ReportsController extends HrmController
         }
 
             
-        return view('reports.attendance_report',compact('employees', 'currentMonth'));
+        return view('reports.attendance_report',compact('employees', 'currentMonth', 'employeeList'));
     }
 
     public function employee_presence_report(Request $request)

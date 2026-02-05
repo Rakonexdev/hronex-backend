@@ -36,9 +36,11 @@ class AuthController extends BaseController
         }
 
         $validator = Validator::make($request->all(), [
-            'device_token' => 'required',            
+            // 'device_token' => 'required',       
+            'device_token' => 'nullable|string',     
         ]);
 
+      
         if ($validator->fails()) {
             return $this->sendError('Unauthorised.', ['error'=>trans('messages.error_login')]);
         }

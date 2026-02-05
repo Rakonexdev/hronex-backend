@@ -51,6 +51,10 @@ class EmployeesController extends HrmController
                         }else if($request->has('type') && 'PE'==$request->type){
                             //$query->whereBetween('passportexpiry', [$currentDate, $expiryDate]);
                             $query->where('passportexpiry', '<=', $expiryDate);
+                        }else if($request->has('type') && 'VE'==$request->type){
+                            $query->whereNotNull('visa_expiry_date')
+                                  ->where('visa_expiry_date', '!=', '')
+                                  ->where('visa_expiry_date', '<=', $expiryDate);
                         }
                     })
                     ->orderByRaw("CASE 
@@ -435,6 +439,10 @@ class EmployeesController extends HrmController
                                 'qidexpiry' => $request->qidexpiry,
                                 'passportno' => $request->passportno,
                                 'passportexpiry' => $request->passportexpiry,
+                                'visa_type' => $request->visa_type,
+                                'visa_number'=>$request->visa_number,
+                                'visa_issue_date'=>$request->visa_issue_date,
+                                'visa_expiry_date' => $request->visa_expiry_date,
                                 'mobile1' => $request->mobile1,
                                 'mobile1_code' => getCountry('phone_code', 182), /*getCountry('phone_code', $request->nationality),*/
                                 'mobile2' => $request->mobile2,

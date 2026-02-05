@@ -29,7 +29,8 @@ class SettingsController extends HrmController
                   'LA'=>'Leave Approval', 
                   "AL"=>'Academic Leaves', 
                   "QE"=>'QID Expiry', 
-                  "PE"=>'Passport Expiry'
+                  "PE"=>'Passport Expiry',
+                  "VE"=>'Visa Expiry'
                 ];
         $access = DB::table('dashboard_settings')->select('role_id', 'card')->get();
 
@@ -93,7 +94,8 @@ class SettingsController extends HrmController
 
     public function roleaccess()
     {      
-        $roles = Role::whereIn('id', [3,5,6,7,8])->get();
+        //$roles = Role::whereIn('id', [3,5,6,7,8])->get();
+        $roles = Role::whereIn('id', [2,3,4])->get();
         return view('settings.roleaccess', compact('roles'));
     }
 

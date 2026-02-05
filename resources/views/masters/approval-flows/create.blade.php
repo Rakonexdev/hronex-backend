@@ -37,7 +37,7 @@
                 
                 <div class="mb-3 col-md-6">
                     <label class="form-label">Department</label>
-                    <select name="department" class="form-select" required>
+                    <select name="department_id" class="form-select" required>
                         <option value="0">All</option>
                         @foreach($departments as $department)
                             <option value="{{ $department->id }}">

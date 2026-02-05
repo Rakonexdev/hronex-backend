@@ -139,6 +139,24 @@
                         <div class="text">{{$data->passportexpiry ? date('jS M Y', strtotime($data->passportexpiry)):
                           '----------'}}</div>
                       </li>
+                      <!--Visa details -->
+                     <li>
+                        <div class="title">Visa Type</div>
+                        <div class="text">{{$data->visa_type ? $data->visa_type : '----------'}}</div>
+                      </li>
+                      <li>
+                        <div class="title">Visa No.</div>
+                        <div class="text">{{$data->visa_number ? $data->visa_number : '----------'}}</div>
+                      </li>
+                       <li>
+                        <div class="title">Visa Issue Date</div>
+                        <div class="text">{{$data->visa_issue_date ? $data->visa_issue_date : '----------'}}</div>
+                      </li>
+                      <li>
+                        <div class="title">Visa Expiry Date</div>
+                        <div class="text">{{$data->visa_expiry_date ? $data->visa_expiry_date : '----------'}}</div>
+                      </li>
+                      <!--Visa details end-->
                       <li>
                         <div class="title">Gender</div>
                         <div class="text">{{$data->gender ? $data->gender : '----------'}}</div>
@@ -674,6 +692,39 @@
                 <input type="date" name="passportexpiry" value="{{$data->passportexpiry}}" class="form-control"
                   id="passportexpiry" style="color: #8D8D8D;">
               </div>
+              <!--visa details-->
+                <div class="col-md-6">
+                <label for="visa_type" class="form-label">Visa Type *</label>
+                <select id="visa_type" name="visa_type" class="form-select" style="color: #8D8D8D;">
+                  <option {{$data->visa_type ? '' : 'selected' }}>Choose Visa Type...
+                  </option>
+                  <option value="Employment" {{$data->visa_type =='Employment' ? 'selected' : '' }}>Employment
+                  </option>
+                  <option value="Family" {{$data->visa_type =='Family' ? 'selected' : '' }}>
+                    Family</option>
+                  <option value="Business" {{$data->visa_type =='Business' ? 'selected' : '' }}>
+                    Business</option>
+                  <option value="Student" {{$data->visa_type=='Student' ? 'selected' : '' }}>
+                    Student</option>
+                </select>
+              </div>
+
+               <div class="col-md-6">
+                <label for="visano" class="form-label">Visa Number:</label>
+                <input type="text" name="visa_number" value="{{$data->visa_number}}" class="form-control" id="visa_number"
+                  style="color: #8D8D8D;">
+              </div>
+              <div class="col-md-6">
+                <label for="visa_issue_date" class="form-label">Visa Issue Date</label>
+                <input type="date" name="visa_issue_date" value="{{$data->visa_issue_date}}" class="form-control"
+                  id="visa_issue_date" style="color: #8D8D8D;">
+              </div>
+              <div class="col-md-6">
+                <label for="visa_expiry_date" class="form-label">Visa Expiry Date</label>
+                <input type="date" name="visa_expiry_date" value="{{$data->visa_expiry_date}}" class="form-control"
+                  id="visa_expiry_date" style="color: #8D8D8D;">
+              </div>
+              <!--Visa details end-->
               <div class="col-12">
                 <label for="passport_attaches" class="form-label">Attach Passport Documents</label>
                 <input type="file" name="passport_attaches" value="{{$data->passport_attaches}}" class="form-control"

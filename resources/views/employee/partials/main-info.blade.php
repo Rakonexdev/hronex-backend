@@ -102,6 +102,43 @@
         <input type="date" name="passportexpiry" value="@if(NULL!=$data){{$data->passportexpiry}}@else{{old('passportexpiry')}}@endif"
             class="form-control" id="passportexpiry" style="color: #8D8D8D;">
     </div> 
+
+    <!--Visa Details -->
+
+
+<div class="col-md-6">
+    <label for="visa_type" class="form-label">Visa Type *</label>
+    <select name="visa_type" id="visa_type" class="form-select" style="color: #8D8D8D;" required>
+        <option value="">Choose Visa Type...</option>
+        <option value="Employment">Employment</option>
+        <option value="Family">Family</option>
+        <option value="Business">Business</option>
+        <option value="Visit">Visit</option>
+    </select>
+</div>
+
+<div class="col-md-6">
+    <label for="visa_number" class="form-label">Visa Number *</label>
+    <input type="text" name="visa_number"
+        value="@if(NULL!=$data){{$data->visa_number}}@else{{old('visa_number')}}@endif"
+        class="form-control" id="visa_number" style="color: #8D8D8D;" required>
+</div>
+
+<div class="col-md-6">
+    <label for="visa_issue_date" class="form-label">Visa Issue Date *</label>
+    <input type="date" name="visa_issue_date"
+        value="@if(NULL!=$data){{$data->visa_issue_date}}@else{{old('visa_issue_date')}}@endif"
+        class="form-control" id="visa_issue_date" style="color: #8D8D8D;" required>
+</div>
+
+<div class="col-md-6">
+    <label for="visa_expiry_date" class="form-label">Visa Expiry Date *</label>
+    <input type="date" name="visa_expiry_date"
+        value="@if(NULL!=$data){{$data->visa_expiry_date}}@else{{old('visa_expiry_date')}}@endif"
+        class="form-control" id="visa_expiry_date" style="color: #8D8D8D;" required>
+</div>
+<!--Visa End-->
+
     <div class="col-md-6">
         <label for="mobile1" class="form-label">Primary Contact No *</label>
         <input type="text" name="mobile1" value="@if(NULL!=$data){{$data->mobile1}}@else{{old('mobile1')}}@endif" class="form-control"
