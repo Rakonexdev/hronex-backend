@@ -56,7 +56,6 @@
   <link href="{{asset('css/custom.css') }}" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.3/dist/sweetalert2.min.css">
-  @yield('page_css')
 </head>
 <body>
 
