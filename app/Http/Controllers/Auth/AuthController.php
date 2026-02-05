@@ -310,8 +310,11 @@ class AuthController extends HrmController
             //Qid & Passport expiry employees            
             $qid_exp = getExpireDocData('QE');
             $pass_exp = getExpireDocData('PE');
-            $qid_exp_count = ($qid_exp->isNotEmpty())?count($qid_exp):0;
-            $pass_exp_count = ($pass_exp->isNotEmpty())?count($pass_exp):0;
+            $visa_exp = getExpireDocData('VE');
+
+            $qid_exp_count = $qid_exp->count();
+            $pass_exp_count = $pass_exp->count();
+            $visa_exp_count = $visa_exp->count();
 
             /*Dashboard card access */
             $access = DB::table('dashboard_settings')->select('role_id', 'card')->get();
@@ -324,7 +327,7 @@ class AuthController extends HrmController
 
             $userRole = Auth::user()->roles[0]->id;
             
-            return view('home.dashboard', compact('active_employees', 'inactive_employees', 'leave_approval_pending', 'academic_year_leaves', 'activities', 'qid_exp_count', 'pass_exp_count', 'curacc', 'userRole'));
+            return view('home.dashboard', compact('active_employees', 'inactive_employees', 'leave_approval_pending', 'academic_year_leaves', 'activities', 'qid_exp_count', 'pass_exp_count', 'visa_exp_count', 'curacc', 'userRole'));
         }
         
         return redirect("login")->withError(trans('messages.no_access'));

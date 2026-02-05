@@ -48,11 +48,16 @@
             <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
                 <div class="form-group">
                     <label class="form-label">Status</label>
-                    <select name="status" class="form-control">
-                        <option value="" selected>Choose...</option>
-                        <option value="1"> Enable </option>
-                        <option value="0"> Disable </option>
-                    </select>
+                  <select name="status" class="form-control">
+    <option value="">Choose...</option>
+    <option value="1" {{ ($edit_masters && $edit_masters->active == 1) ? 'selected' : '' }}>
+        Enable
+    </option>
+    <option value="0" {{ ($edit_masters && $edit_masters->active == 0) ? 'selected' : '' }}>
+        Disable
+    </option>
+</select>
+
                 </div>
             </div>
             <div class="col-md-2" style="padding-top: 33px;">

@@ -180,7 +180,7 @@ function getExpireDocData($type=null)
     $currentDate = date('Y-m-d'); 
     $expiryDate = Carbon::parse($currentDate)->addDays(30);
         
-    $notifs = Employees::select('employee_id', 'user_id', 'name', 'lname', 'qidexpiry', 'passportexpiry')
+    $notifs = Employees::select('employee_id', 'user_id', 'name', 'lname', 'qidexpiry', 'passportexpiry', 'visa_expiry_date')
                         ->where(function($query) use($currentDate, $expiryDate, $type){
                             if('QE'==$type){
                                 //$query->whereBetween('qidexpiry', [$currentDate, $expiryDate]);
@@ -188,14 +188,20 @@ function getExpireDocData($type=null)
                             }else if('PE'==$type){
                                 //$query->whereBetween('passportexpiry', [$currentDate, $expiryDate]);
                                 $query->where('passportexpiry', '<=', $expiryDate);
+                            }else if('VE'==$type){
+                                $query->whereNotNull('visa_expiry_date')
+                                      ->where('visa_expiry_date', '!=', '')
+                                      ->where('visa_expiry_date', '<=', $expiryDate);
                             }else{
                                 //$query->whereBetween('passportexpiry', [$currentDate, $expiryDate])
                                 //->orWhereBetween('qidexpiry', [$currentDate, $expiryDate]);
                                 $query->where('passportexpiry', '<=', $expiryDate)
-                                ->orWhere('qidexpiry', '<=', $expiryDate);
+                                ->orWhere('qidexpiry', '<=', $expiryDate)
+                                ->orWhere('visa_expiry_date', '<=', $expiryDate);
                             }
                         })
                         ->where('status', 1)->get();
+                        
     if($notifs->isNotEmpty()){
         foreach($notifs as $eachnt){
             if($eachnt->passportexpiry > $expiryDate){
@@ -203,6 +209,9 @@ function getExpireDocData($type=null)
             }
             if($eachnt->qidexpiry > $expiryDate){
               $eachnt->qidexpiry = null;   
+            }
+            if($eachnt->visa_expiry_date > $expiryDate){
+               $eachnt->visa_expiry_date = null;
             }
         }
     }

@@ -59,6 +59,18 @@
                             </select>
                         </div>
                     </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label>Select Employee</label>
+                            <select name="employee_id" id="employee_id" class="form-control select2">
+                                <option value="">All Employees</option>
+                                @foreach($employeeList as $emp)
+                                    <option value="{{$emp->id}}" @if(request('employee_id')==$emp->id) selected @endif >{{$emp->employee_no}} - {{$emp->name}} {{$emp->lname}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="col-md-2" style="padding-top: 2rem;">                    
                         <button type="submit" class="btn btn-block btn-alpha">Search</button>                    
