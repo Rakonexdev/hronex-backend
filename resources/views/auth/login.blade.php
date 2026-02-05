@@ -2,7 +2,7 @@
   
 @section('content')
 
-    <div class="card mb-3">
+    <div class="card mb-3 login-card">
 
         <div class="card-body">
 

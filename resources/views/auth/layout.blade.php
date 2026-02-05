@@ -42,6 +42,7 @@
   <!-- Extra CSS File -->
   <link href="{{asset('css/style(2).css') }}" rel="stylesheet">
   <link href="{{asset('css/style(3).css') }}" rel="stylesheet">
+  <link href="{{asset('css/custom.css') }}" rel="stylesheet">
 
 </head>
 <body class="landing-pg">
