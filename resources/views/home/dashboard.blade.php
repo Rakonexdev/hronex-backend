@@ -436,78 +436,34 @@
             <div class="card-body">
               <h5 class="card-title">Activity Log</h5>
 
-              <div class="activity">
+              <div class="activity dashboard-activity">
 
                 @if(0 < count($activities))
                   @foreach($activities as $eachactivity)
-                    <div class="activity-item d-flex" style="font-size: 0.7rem;">
-                      <div class="activite-label">
+                    <div class="activity-item">
+                      <div class="activity-time">
                         {{$eachactivity->hours}} hrs {{$eachactivity->minutes}} min
-                        &nbsp;
                       </div>
-                      <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                      <div class="activity-marker">
+                          <div class="marker-dot"></div>
+                          <div class="marker-line"></div>
+                      </div>
                       <div class="activity-content">
-                        <a href="#" class="fw-bold text-dark">{{$eachactivity->module.' '.$eachactivity->event}}:</a> @if(null!=$eachactivity->user){{$eachactivity->user->name}}@endif
+                        <span class="module-name">{{$eachactivity->module}}</span>
+                        <span class="event-type">{{$eachactivity->event}}</span>
+                        <div class="user-name">
+                            by @if(null!=$eachactivity->user) <span>{{$eachactivity->user->name}}</span> @else System @endif
+                        </div>
                       </div>
                     </div>
                   @endforeach
                 @else
-                    <div class="activity-item d-flex">
-                      <div class="activite-label">  &nbsp; </div>
-                      <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                      <div class="activity-content">
+                    <div class="activity-item empty-state">
+                      <div class="activity-content text-center text-muted">
                         {{trans('messages.no_data')}}
                       </div>
                     </div>
                 @endif
-
-                <!-- <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                  <div class="activity-content">
-                    Activity <a href="#" class="fw-bold text-dark">One</a> here
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Activity Two
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Activity Three
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Activity <a href="#" class="fw-bold text-dark">Four</a> here
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Activity Five
-                  </div>
-                </div>
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Activity Six
-                  </div>
-                </div> -->
 
               </div>
 
