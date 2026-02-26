@@ -641,3 +641,146 @@ body.landing-pg .credits a {
   color: #fff;
   text-decoration: underline;
 }
+
+/* =========================================
+   DASHBOARD ACTIVITY LOG
+   ========================================= */
+
+.dashboard-activity {
+  position: relative;
+  padding: 0 10px;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+/* Chrome/Safari/Edge Scrollbar */
+.dashboard-activity::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-activity::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.dashboard-activity::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.dashboard-activity::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.dashboard-activity .activity-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.dashboard-activity .activity-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 1. Time Column */
+.dashboard-activity .activity-time {
+  width: 60px;
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #899bbd;
+  line-height: 1.2;
+  padding-top: 5px;
+}
+
+/* 2. Marker Column (Line + Dot) */
+.dashboard-activity .activity-marker {
+  position: relative;
+  width: 40px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  /* ensure line goes full height of item */
+  align-self: stretch;
+}
+
+/* The Dot */
+.dashboard-activity .marker-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 3px solid #4154f1;
+  /* Primary color */
+  z-index: 2;
+  margin-top: 5px;
+  /* align with text */
+  box-shadow: 0 0 0 3px rgba(65, 84, 241, 0.1);
+}
+
+/* The Vertical Line */
+.dashboard-activity .marker-line {
+  position: absolute;
+  top: 5px;
+  bottom: -25px;
+  /* connect to next item */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background-color: #e6e9f0;
+  z-index: 1;
+}
+
+/* Hide line for last item */
+.dashboard-activity .activity-item:last-child .marker-line {
+  display: none;
+}
+
+/* 3. Content Column */
+.dashboard-activity .activity-content {
+  flex-grow: 1;
+  padding-bottom: 5px;
+}
+
+/* Module Name (e.g. Employee) */
+.dashboard-activity .module-name {
+  font-weight: 700;
+  color: #012970;
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.9rem;
+}
+
+/* Event Type (e.g. Added, Deleted) */
+.dashboard-activity .event-type {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #f6f9ff;
+  color: #4154f1;
+  margin-bottom: 4px;
+  text-transform: capitalize;
+}
+
+/* User Info */
+.dashboard-activity .user-name {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.dashboard-activity .user-name span {
+  color: #ffc70d;
+  /* Green for user name */
+  font-weight: 500;
+}
+
+/* Empty State */
+.dashboard-activity .empty-state {
+  padding: 20px 0;
+  justify-content: center;
+}
